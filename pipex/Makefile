@@ -41,7 +41,8 @@ WHITE = \033[0;37m
 RESET = \033[0m
 
 # Archivos fuente y archivos objeto
-SRC =	pipex.c \
+SRC =	main.c \
+		pipex.c \
 		utils.c \
 
 OBJ = $(SRC:.c=.o)
@@ -59,7 +60,7 @@ $(NAME): header $(OBJ)
 	@make -C $(LIBFT_DIR) --no-print-directory
 	@make -C $(FT_PRINTF_DIR) --no-print-directory
 	@make -C $(GET_NEXT_LINE_DIR) --no-print-directory
-	$(CC) $(FLAGS) $(OBJ) -o $(NAME) \
+	@$(CC) $(FLAGS) $(OBJ) -o $(NAME) \
 		$(INCLUDE_LIBFT) \
 		$(INCLUDE_FT_PRINTF) \
 		$(INCLUDE_GET_NEXT_LINE)
