@@ -16,7 +16,22 @@
 # include "libft/libft.h"
 # include "ft_printf/ft_printf.h"
 # include "get_next_line/get_next_line.h"
+# include <unistd.h>
+# include <stdlib.h>
+# include <string.h>
+# include <stdio.h>
+# include <sys/wait.h>
+# include <fcntl.h>
 
-int	main(int argc, char **argv, char **envp);
+#define READ_END	0	//index pipe extremo lectura
+#define WRITE_END	1	//index pipe extremo escritura
+
+void	error(void);
+void	arg_error(void);
+int		main(int argc, char **argv, char **envp);
+
+int		open_file(const char *file, int access_mode);
+void	first_child_process(char **argv, char **envp, int *fd);
+void	second_child_process(char **argv, char **envp, int *fd);
 
 #endif

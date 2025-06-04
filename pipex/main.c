@@ -12,22 +12,34 @@
 
 #include "pipex.h"
 
-void	arg_error(void)
-{
-	ft_putstr_fd("Error: Bad arguments\n", 2);
-	ft_putstr_fd("Usage:\t ./pipex <file1> <cmd1> <cmd2> <file2>\n", 1);
-}
-
 //Llamar a mi función principal pipex(argv, envp);
 int	main(int argc, char **argv, char **envp)
 {
-	(void)argv;
-	(void)envp;
+	int		fd[2];
+	pid_t	pid;
+
 	if (argc != 5)
-	{
 		arg_error();
-		//ft_printf("Usage:\n\t ./pipex file1 cmd1 cmd2 file2\n\n");
-		//return (1);
+	pipe(fd);
+	if (pipe(fd) == -1)
+		error();
+	pid = fork();	//CREAR PRIMER HIJO
+	if (pid == -1)
+		error();
+	if (pid == 0)	//EJECUTAR PRIMER HIJO	"CHILD"
+		first_child_process(argv, envp, fd);
+	else	//EJECUTAR EL PADRE	"PARENT"
+	{
+		close(fd[1]);
+		pid = fork();	//CREAR SEGUNDO HIJO
+		if (pid == -1)
+			error();
+		if (pid == 0)	//EJECUTAR SEGUNDO HIJO
+			second_child_process(argv, envp, fd);
+		else	//EJECUTAR AL PADRE
+			close(fd[0]);
 	}
+	//NOSE QUE ES
+	waitpid(pid, NULL, 0);
 	return (0);
 }
