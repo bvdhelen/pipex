@@ -23,15 +23,17 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 
-#define READ_END	0	//index pipe extremo lectura
-#define WRITE_END	1	//index pipe extremo escritura
+# define READ_END	0	//index pipe extremo lectura
+# define WRITE_END	1	//index pipe extremo escritura
 
-void	error(void);
 void	arg_error(void);
-int		main(int argc, char **argv, char **envp);
-
+void	ft_error(char *message);
 int		open_file(const char *file, int access_mode);
+
+void	pipex(char **argv, char **envp);
 void	first_child_process(char **argv, char **envp, int *fd);
 void	second_child_process(char **argv, char **envp, int *fd);
+
+int		main(int argc, char **argv, char **envp);
 
 #endif
