@@ -1,12 +1,12 @@
 total 60
--rw-r--r-- 1 bvdhelen bvdhelen  4126 Jun  4 12:54 Makefile
--rw-r--r-- 1 bvdhelen bvdhelen     0 Jun  4 19:04 filein.txt
--rw-r--r-- 1 bvdhelen bvdhelen    24 Jun  4 19:04 fileout.txt
-drwxr-xr-x 2 bvdhelen bvdhelen  4096 Jun  4 19:01 ft_printf
-drwxr-xr-x 3 bvdhelen bvdhelen  4096 Jun  4 19:01 get_next_line
-drwxr-xr-x 2 bvdhelen bvdhelen  4096 Jun  4 19:01 libft
--rw-r--r-- 1 bvdhelen bvdhelen  1605 Jun  4 18:57 main.c
--rwxr-xr-x 1 bvdhelen bvdhelen 16712 Jun  4 19:01 pipex
--rw-r--r-- 1 bvdhelen bvdhelen  2215 Jun  4 19:01 pipex.c
--rw-r--r-- 1 bvdhelen bvdhelen  1562 Jun  4 18:59 pipex.h
--rw-r--r-- 1 bvdhelen bvdhelen  1139 Jun  4 18:04 utils.c
+-rw-r--r-- 1 bvdhelen bvdhelen  4155 Jun  5 14:04 Makefile
+drwxr-xr-x 2 bvdhelen bvdhelen  4096 Jun 10 11:46 ft_printf
+drwxr-xr-x 3 bvdhelen bvdhelen  4096 Jun 10 11:46 get_next_line
+-rw-r--r-- 1 bvdhelen bvdhelen     0 Jun 10 11:49 infile
+drwxr-xr-x 2 bvdhelen bvdhelen  4096 Jun 10 11:46 libft
+-rw-r--r-- 1 bvdhelen bvdhelen  1107 Jun  5 13:48 main.c
+-rwxr-xr-x 1 bvdhelen bvdhelen   641 Jun 10 11:48 outfile
+-rwxr-xr-x 1 bvdhelen bvdhelen 17552 Jun 10 11:46 pipex
+-rw-r--r-- 1 bvdhelen bvdhelen  2604 Jun 10 11:46 pipex.c
+-rw-r--r-- 1 bvdhelen bvdhelen  1794 Jun 10 11:18 pipex.h
+-rw-r--r-- 1 bvdhelen bvdhelen  2756 Jun 10 11:25 utils.c

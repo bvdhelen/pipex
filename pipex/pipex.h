@@ -29,6 +29,10 @@
 void	arg_error(void);
 void	ft_error(char *message);
 int		open_file(const char *file, int access_mode);
+void	free_paths(char **paths);
+char	*join_paths(const char *folder, const char *cmd);
+char	*get_cmd_path(char *cmd, char **envp);
+void	execute_cmd(char **cmd, char **envp);
 
 void	pipex(char **argv, char **envp);
 void	first_child_process(char **argv, char **envp, int *fd);
