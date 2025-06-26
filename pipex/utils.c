@@ -12,34 +12,6 @@
 
 #include "pipex.h"
 
-/*Función para abrir archivos*/
-int	open_file(const char *file, int access_mode)
-{
-	int	fd;
-
-	if (access_mode == 0)
-		fd = open(file, O_RDONLY);
-	if (access_mode == 1)
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (access_mode == -1)
-		exit(0);
-	return (fd);
-}
-
-/*Función para liberar memoria de las rutas*/
-void	free_paths(char **paths)
-{
-	int	i;
-
-	i = 0;
-	while (paths[i])
-	{
-		free(paths[i]);
-		i++;
-	}
-	free(paths);
-}
-
 /*Función para concatenar la ruta con el comando*/
 char	*join_paths(const char *folder, const char *cmd)
 {
@@ -88,16 +60,39 @@ char	*get_cmd_path(char *cmd, char **envp)
 	return (NULL);
 }
 
+/*Función para comprobar si es una ruta absoluta o relativa*/
+int	is_absolute_path(const char *cmd)
+{
+	if (!cmd)
+		return (0);
+	if (ft_strncmp("/", cmd, 1) == 0)
+		return (1);
+	if (ft_strncmp("./", cmd, 2) == 0)
+		return (1);
+	if (ft_strncmp("../", cmd, 3) == 0)
+		return (1);
+	return (0);
+}
+
+char	*check_direct_path(const char *cmd)
+{
+	if (is_absolute_path(cmd) && access(cmd, X_OK) == 0)
+		return (ft_strdup(cmd));
+	return (NULL);
+}
+
 /*Función para ejecutar el comando*/
 void	execute_cmd(char **cmd, char **envp)
 {
 	char	*path;
 
-	path = get_cmd_path(cmd[0], envp);
+	path = check_direct_path(cmd[0]);
+	if (!path)
+		path = get_cmd_path(cmd[0], envp);
 	if (!path)
 	{
 		free_paths(cmd);
-		ft_error("get command path error");
+		ft_error("command not found in PATH error");
 	}
 	if (execve(path, cmd, envp) == -1)
 	{

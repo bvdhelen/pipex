@@ -45,6 +45,7 @@ RESET = \033[0m
 SRC =	main.c \
 		pipex.c \
 		utils.c \
+		utils2.c \
 
 OBJ = $(SRC:.c=.o)
 

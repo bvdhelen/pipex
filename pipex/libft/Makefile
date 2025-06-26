@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/08 00:48:17 by eldiaz-c          #+#    #+#              #
-#    Updated: 2025/04/13 17:06:48 by marvin           ###   ########.fr        #
+#    Updated: 2025/06/26 20:12:18 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SOURCES = ft_isalpha.c \
 		ft_isalnum.c \
 		ft_isascii.c \
 		ft_isprint.c \
+		ft_isspace.c \
 		ft_strlen.c \
 		ft_memset.c \
 		ft_bzero.c \

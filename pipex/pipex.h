@@ -26,18 +26,22 @@
 # define READ_END	0	//index pipe extremo lectura
 # define WRITE_END	1	//index pipe extremo escritura
 
-void	arg_error(void);
-void	ft_error(char *message);
-int		open_file(const char *file, int access_mode);
-void	free_paths(char **paths);
+int		is_absolute_path(const char *cmd);
+char	*check_direct_path(const char *cmd);
 char	*join_paths(const char *folder, const char *cmd);
 char	*get_cmd_path(char *cmd, char **envp);
 void	execute_cmd(char **cmd, char **envp);
+
+int		open_file(const char *file, int access_mode);
+void	free_paths(char **paths);
 
 void	pipex(char **argv, char **envp);
 void	first_child_process(char **argv, char **envp, int *fd);
 void	second_child_process(char **argv, char **envp, int *fd);
 
+void	arg_error(void);
+void	ft_error(char *message);
+int		empty_cmd(const char *cmd);
 int		main(int argc, char **argv, char **envp);
 
 #endif

@@ -23,15 +23,33 @@ void	arg_error(void)
 void	ft_error(char *message)
 {
 	ft_putstr_fd("\033[31mError: \n\e[0m", 2);
-	perror(message);
+	ft_putstr_fd(message, 2);
+	ft_putstr_fd("\n", 2);
+	//perror(message);
 	exit(1);
+}
+
+/*Función para verificar si no se pasa comando*/
+int	empty_cmd(const char *cmd)
+{
+	while (*cmd)
+	{
+		if (!ft_isspace(*cmd))
+			return (0);
+		cmd++;
+	}
+	return (1);
 }
 
 /*Función principal que ejecuta mi pipex*/
 int	main(int argc, char **argv, char **envp)
 {
 	if (argc == 5)
+	{
+		if (empty_cmd(argv[2]) || empty_cmd(argv[3]))
+			ft_error("empty or invalid command");
 		pipex(argv, envp);
+	}
 	else
 		arg_error();
 	return (0);
