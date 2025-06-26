@@ -12,21 +12,6 @@
 
 #include "pipex.h"
 
-/*Función error de argumentos*/
-void	arg_error(void)
-{
-	ft_putstr_fd("\033[31mError: Bad arguments\n\e[0m", 2);
-	ft_putstr_fd("Usage:\t ./pipex <file1> <cmd1> <cmd2> <file2>\n", 1);
-}
-
-/*Función error principal*/
-void	ft_error(char *message)
-{
-	ft_putstr_fd("\033[31mError: \n\e[0m", 2);
-	perror(message);
-	exit(1);
-}
-
 /*Función para abrir archivos*/
 int	open_file(const char *file, int access_mode)
 {
@@ -90,7 +75,6 @@ char	*get_cmd_path(char *cmd, char **envp)
 		}
 		if (access(path, X_OK) == 0)
 		{
-			//free solo
 			free_paths(paths);
 			return (path);
 		}
