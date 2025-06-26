@@ -27,7 +27,7 @@ void	ft_error(char *message)
 	exit(1);
 }
 
-//Llamar a mi función principal pipex(argv, envp);
+/*Función principal que ejecuta mi pipex*/
 int	main(int argc, char **argv, char **envp)
 {
 	if (argc == 5)

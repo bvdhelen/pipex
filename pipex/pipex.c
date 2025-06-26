@@ -12,7 +12,7 @@
 
 #include "pipex.h"
 
-/*Función principal*/
+/*Función para ejecutar dos comandos conectados por una tubería (pipe)*/
 void	pipex(char **argv, char **envp)
 {
 	int		fd[2];
@@ -46,6 +46,7 @@ void	pipex(char **argv, char **envp)
 	waitpid(pid2, NULL, 0);
 }
 
+/*Función para ejecutar el proceso del primer hijo*/
 void	first_child_process(char **argv, char **envp, int *fd)
 {
 	int		infile;
@@ -66,6 +67,7 @@ void	first_child_process(char **argv, char **envp, int *fd)
 	free_paths(cmd_args);
 }
 
+/*Función para ejecutar el proceso del segundo hijo*/
 void	second_child_process(char **argv, char **envp, int *fd)
 {
 	int		outfile;

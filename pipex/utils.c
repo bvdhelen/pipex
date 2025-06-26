@@ -26,6 +26,7 @@ int	open_file(const char *file, int access_mode)
 	return (fd);
 }
 
+/*Función para liberar memoria de las rutas*/
 void	free_paths(char **paths)
 {
 	int	i;
@@ -39,6 +40,7 @@ void	free_paths(char **paths)
 	free(paths);
 }
 
+/*Función para concatenar la ruta con el comando*/
 char	*join_paths(const char *folder, const char *cmd)
 {
 	char	*full_path;
@@ -50,6 +52,7 @@ char	*join_paths(const char *folder, const char *cmd)
 	return (result);
 }
 
+/*Función para encontrar la ruta del comando*/
 char	*get_cmd_path(char *cmd, char **envp)
 {
 	int		i;
@@ -85,6 +88,7 @@ char	*get_cmd_path(char *cmd, char **envp)
 	return (NULL);
 }
 
+/*Función para ejecutar el comando*/
 void	execute_cmd(char **cmd, char **envp)
 {
 	char	*path;
