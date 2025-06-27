@@ -17,16 +17,15 @@ void	arg_error(void)
 {
 	ft_putstr_fd("\033[31mError: Bad arguments\n\e[0m", 2);
 	ft_putstr_fd("Usage:\t ./pipex <file1> <cmd1> <cmd2> <file2>\n", 1);
+	exit(1);
 }
 
 /*Función error principal*/
-void	ft_error(char *message)
+void	ft_error(char *message, int code)
 {
 	ft_putstr_fd("\033[31mError: \n\e[0m", 2);
-	ft_putstr_fd(message, 2);
-	ft_putstr_fd("\n", 2);
-	//perror(message);
-	exit(1);
+	perror(message);
+	exit(code);
 }
 
 /*Función para verificar si no se pasa comando*/
@@ -44,13 +43,16 @@ int	empty_cmd(const char *cmd)
 /*Función principal que ejecuta mi pipex*/
 int	main(int argc, char **argv, char **envp)
 {
+	int	exit_code;
+
+	exit_code = 0;
 	if (argc == 5)
 	{
 		if (empty_cmd(argv[2]) || empty_cmd(argv[3]))
-			ft_error("empty or invalid command");
+			ft_error("empty or invalid command", 1);
 		pipex(argv, envp);
 	}
 	else
 		arg_error();
-	return (0);
+	return (exit_code);
 }

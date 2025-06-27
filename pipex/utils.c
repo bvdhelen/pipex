@@ -81,7 +81,22 @@ char	*check_direct_path(const char *cmd)
 	return (NULL);
 }
 
-/*Función para ejecutar el comando*/
+/*Función para comprobar si el acceso está permitido 
+(comando encontrado) pero no ejecutable
+código de error 126 -> comando encontrado pero no ejecutable*/
+void	check_access(char *path, char **cmd)
+{
+	if (access(path, X_OK) == -1)
+	{
+		free(path);
+		free_paths(cmd);
+		ft_error("permission denied error", 126);
+	}
+}
+
+/*Función para ejecutar el comando
+127 -> código de error comando no encontrado
+ENOENT -> código de error no existe el archivo o directorio*/
 void	execute_cmd(char **cmd, char **envp)
 {
 	char	*path;
@@ -92,12 +107,16 @@ void	execute_cmd(char **cmd, char **envp)
 	if (!path)
 	{
 		free_paths(cmd);
-		ft_error("command not found in PATH error");
+		ft_error("command not found in PATH error", 127);
 	}
+	check_access(path, cmd);
 	if (execve(path, cmd, envp) == -1)
 	{
 		free(path);
 		free_paths(cmd);
-		ft_error("execve error");
+		if (errno == ENOENT)
+			ft_error("no such a file or directory error", 127);
+		else
+			ft_error("execve error", 1);
 	}
 }

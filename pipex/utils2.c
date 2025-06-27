@@ -22,7 +22,7 @@ int	open_file(const char *file, int access_mode)
 	if (access_mode == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (access_mode == -1)
-		exit(0);
+		ft_error("invalid access mode error", 1);
 	return (fd);
 }
 

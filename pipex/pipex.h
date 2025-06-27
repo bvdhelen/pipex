@@ -22,6 +22,7 @@
 # include <stdio.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <errno.h>
 
 # define READ_END	0	//index pipe extremo lectura
 # define WRITE_END	1	//index pipe extremo escritura
@@ -40,7 +41,7 @@ void	first_child_process(char **argv, char **envp, int *fd);
 void	second_child_process(char **argv, char **envp, int *fd);
 
 void	arg_error(void);
-void	ft_error(char *message);
+void	ft_error(char *message, int code);
 int		empty_cmd(const char *cmd);
 int		main(int argc, char **argv, char **envp);
 
