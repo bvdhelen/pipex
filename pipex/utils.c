@@ -60,40 +60,6 @@ char	*get_cmd_path(char *cmd, char **envp)
 	return (NULL);
 }
 
-/*Función para comprobar si es una ruta absoluta o relativa*/
-int	is_absolute_path(const char *cmd)
-{
-	if (!cmd)
-		return (0);
-	if (ft_strncmp("/", cmd, 1) == 0)
-		return (1);
-	if (ft_strncmp("./", cmd, 2) == 0)
-		return (1);
-	if (ft_strncmp("../", cmd, 3) == 0)
-		return (1);
-	return (0);
-}
-
-char	*check_direct_path(const char *cmd)
-{
-	if (is_absolute_path(cmd) && access(cmd, X_OK) == 0)
-		return (ft_strdup(cmd));
-	return (NULL);
-}
-
-/*Función para comprobar si el acceso está permitido 
-(comando encontrado) pero no ejecutable
-código de error 126 -> comando encontrado pero no ejecutable*/
-void	check_access(char *path, char **cmd)
-{
-	if (access(path, X_OK) == -1)
-	{
-		free(path);
-		free_paths(cmd);
-		ft_error("permission denied error", 126);
-	}
-}
-
 /*Función para ejecutar el comando
 127 -> código de error comando no encontrado
 ENOENT -> código de error no existe el archivo o directorio*/
