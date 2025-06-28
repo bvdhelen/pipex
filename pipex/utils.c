@@ -24,7 +24,28 @@ char	*join_paths(const char *folder, const char *cmd)
 	return (result);
 }
 
-/*Función para encontrar la ruta del comando*/
+/*Función para buscar en los directorios de paths una ruta ejecutable válida
+para el comando cmd y la devuelve si la encuentra*/
+char	*search_in_paths(char **paths, char *cmd)
+{
+	int		i;
+	char	*path;
+
+	i = 0;
+	while (paths[i])
+	{
+		path = join_paths(paths[i], cmd);
+		if (!path)
+			return (NULL);
+		if (access(path, X_OK) == 0)
+			return (path);
+		free(path);
+		i++;
+	}
+	return (NULL);
+}
+
+/*Función para encontrar la ruta del comando (si hay envp o path)*/
 char	*get_cmd_path(char *cmd, char **envp)
 {
 	int		i;
@@ -39,28 +60,12 @@ char	*get_cmd_path(char *cmd, char **envp)
 	paths = ft_split(envp[i] + 5, ':');
 	if (!paths)
 		return (NULL);
-	i = 0;
-	while (paths[i])
-	{
-		path = join_paths(paths[i], cmd);
-		if (!path)
-		{
-			free_paths(paths);
-			return (NULL);
-		}
-		if (access(path, X_OK) == 0)
-		{
-			free_paths(paths);
-			return (path);
-		}
-		free(path);
-		i++;
-	}
+	path = search_in_paths(paths, cmd);
 	free_paths(paths);
-	return (NULL);
+	return (path);
 }
 
-/*Función para ejecutar el comando
+/*Función para ejecutar un comando
 127 -> código de error comando no encontrado
 ENOENT -> código de error no existe el archivo o directorio*/
 void	execute_cmd(char **cmd, char **envp)

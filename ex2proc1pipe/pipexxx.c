@@ -40,6 +40,17 @@ void	pipex(char **argv, char **envp)
 	//Proceso padre cierra ambos extremos de la tubería y espera a los hijos
 	close(fd[0]);
 	close(fd[1]);
-	waitpid(pid2, NULL, 0);
 	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);
 }
+
+//Explicación de los códigos de salida
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, &status, 0); // Captura el estado de terminación del segundo hijo
+
+	if (WIFEXITED(status)) // PASO 1: ¿Terminó el segundo hijo de forma normal?
+    	exit(WEXITSTATUS(status)); // PASO 2: Si sí, salimos de pipex con SU código de salida.
+	else // Si el hijo no terminó normalmente (ej. fue matado por una señal)
+    	exit(1); // Salimos con un código de error genérico (o el que decida el sujeto de Pipex)

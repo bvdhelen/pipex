@@ -40,7 +40,7 @@ void	free_paths(char **paths)
 	free(paths);
 }
 
-/*Función para comprobar si es una ruta absoluta o relativa*/
+/*Función para buscar rutas absolutas o relativas*/
 int	is_absolute_path(const char *cmd)
 {
 	if (!cmd)
@@ -54,6 +54,7 @@ int	is_absolute_path(const char *cmd)
 	return (0);
 }
 
+/*Función para comprobar si es una ruta absoluta o relativa*/
 char	*check_direct_path(const char *cmd)
 {
 	if (is_absolute_path(cmd) && access(cmd, X_OK) == 0)

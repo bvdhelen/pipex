@@ -27,14 +27,11 @@ void	pipex(char **argv, char **envp)
 		ft_error("first child (fork 1) error", 1);
 	if (pid1 == 0)
 		first_child_process(argv, envp, fd);
-	else
-	{
-		pid2 = fork();
-		if (pid2 == -1)
-			ft_error("second child (fork 2) error", 1);
-		if (pid2 == 0)
-			second_child_process(argv, envp, fd);
-	}
+	pid2 = fork();
+	if (pid2 == -1)
+		ft_error("second child (fork 2) error", 1);
+	if (pid2 == 0)
+		second_child_process(argv, envp, fd);
 	close(fd[0]);
 	close(fd[1]);
 	waitpid(pid1, NULL, 0);

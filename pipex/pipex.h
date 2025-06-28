@@ -28,6 +28,7 @@
 # define WRITE_END	1	//index pipe extremo escritura
 
 char	*join_paths(const char *folder, const char *cmd);
+char	*search_in_paths(char **paths, char *cmd);
 char	*get_cmd_path(char *cmd, char **envp);
 void	execute_cmd(char **cmd, char **envp);
 
