@@ -49,6 +49,16 @@ SRC =	main.c \
 
 OBJ = $(SRC:.c=.o)
 
+# Archivos fuente y archivos objeto BONUS
+SRC_BONUS =	main_bonus.c \
+			pipex_bonus.c \
+			utils_bonus.c \
+			pipex.c \
+			utils.c \
+			utils2.c \
+
+OBJ_BONUS = $(SRC_BONUS:.c=.o)
+
 # Regla para crear los archivos objeto (.o)
 # -c indica que se debe commpilar el código sin enlazar (crear solo el .o)
 # $< representa el archivo de entrada (el .c que se está compilando)
@@ -73,9 +83,23 @@ $(NAME): header $(OBJ)
 # Regla principal que lo compila todo
 all: $(NAME)
 
+# Regla para compilar pipex bonus con libft, ft_printf y get_next_line
+# -C sirve para cambiar UNA VEZ al directorio especificado antes de ejecutar el Makefile
+bonus: header $(OBJ_BONUS)
+	@make -C $(LIBFT_DIR) --no-print-directory
+	@make -C $(FT_PRINTF_DIR) --no-print-directory
+	@make -C $(GET_NEXT_LINE_DIR) --no-print-directory
+	@$(CC) $(FLAGS) $(OBJ_BONUS) -o $(NAME) \
+		$(INCLUDE_LIBFT) \
+		$(INCLUDE_FT_PRINTF) \
+		$(INCLUDE_GET_NEXT_LINE)
+	@echo
+	@echo "$(GREEN)<<< pipex bonus compiled >>>$(RESET)"
+	@echo
+
 # Eliminar todos los archivos .o y .a
 clean:
-	@rm -f $(OBJ) */*.o
+	@rm -f $(OBJ) $(OBJ_BONUS) */*.o
 	@$(MAKE) clean -C $(LIBFT_DIR) --no-print-directory
 	@$(MAKE) clean -C $(FT_PRINTF_DIR) --no-print-directory
 	@$(MAKE) clean -C $(GET_NEXT_LINE_DIR) --no-print-directory
@@ -84,7 +108,7 @@ clean:
 	@echo
 
 fclean: clean
-	@rm -f $(NAME)
+	@rm -f $(NAME) $(NAME_BONUS)
 	@$(MAKE) fclean -C $(LIBFT_DIR) --no-print-directory
 	@$(MAKE) fclean -C $(FT_PRINTF_DIR) --no-print-directory
 	@$(MAKE) fclean -C $(GET_NEXT_LINE_DIR) --no-print-directory
@@ -116,4 +140,4 @@ header:
 	@echo
 
 # Indica que las siguientes reglas no son archivos reales
-.PHONY: all clean fclean re	norminette header
+.PHONY: all clean fclean re	norminette header bonus
