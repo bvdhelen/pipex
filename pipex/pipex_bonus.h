@@ -51,4 +51,8 @@ int		empty_cmd(const char *cmd);
 int		check_empty_cmds(char **argv, int start, int end);
 int		main(int argc, char **argv, char **envp);
 
+void	pipex_bonus(int argc, char **argv, char **envp);
+
+int		open_file_bonus(const char *file, int access_mode);
+
 #endif

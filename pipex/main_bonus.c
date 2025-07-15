@@ -77,8 +77,8 @@ int	main(int argc, char **argv, char **envp)
 			ft_error("empty or invalid command", 1);
 		if (argc == 5)
 			pipex(argv, envp);
-		//else
-		//	pipex_bonus(argc, argv, envp);
+		else if (argc > 5)
+			pipex_bonus(argc, argv, envp);
 	}
 	return (exit_code);
 }
