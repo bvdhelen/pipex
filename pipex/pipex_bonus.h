@@ -44,7 +44,6 @@ void	first_child_process(char **argv, char **envp, int *fd);
 void	second_child_process(char **argv, char **envp, int *fd);
 
 //BONUS PIPEX
-
 void	arg_error(int min_args);
 void	ft_error(char *message, int code);
 int		empty_cmd(const char *cmd);
@@ -52,6 +51,9 @@ int		check_empty_cmds(char **argv, int start, int end);
 int		main(int argc, char **argv, char **envp);
 
 void	pipex_bonus(int argc, char **argv, char **envp);
+int		handle_middle_cmd(char *cmd, int input_fd, char **envp);
+pid_t	handle_last_cmd(char *cmd, int input_fd, int outfile, char **envp);
+void	wait_all(pid_t last_pid);
 
 int		open_file_bonus(const char *file, int access_mode);
 

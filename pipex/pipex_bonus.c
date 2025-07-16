@@ -16,49 +16,97 @@
 void	pipex_bonus(int argc, char **argv, char **envp)
 {
 	int		i;
-	int		fd[2];
 	int		infile;
 	int		outfile;
-	int		prev_fd = -1;
-	pid_t	pid;
+	int		prev_fd;
+	pid_t	last_pid;
 
-	infile = open_file_bonus(argv[1], 0); // Abrir archivo de entrada para lectura
-	outfile = open_file_bonus(argv[argc - 1], 2); // Abrir archivo de salida para escritura
-	i = 2; // Comenzamos desde el primer comando: argv[2] hasta el penúltimo comando
+	infile = open_file_bonus(argv[1], 0);
+	if (infile == -1)
+		ft_error("infile error", 1);
+	outfile = open_file_bonus(argv[argc - 1], 2);
+	if (outfile == -1)
+		ft_error("outfile error", 1);
+	prev_fd = infile;
+	i = 2;
 	while (i < argc - 2)
 	{
-		if (pipe(fd) == -1) // Crear un nuevo pipe
-			ft_error("pipe error", 1);
-		pid = fork(); // Crear un proceso hijo
-		if (pid == -1)
-			ft_error("fork error", 1);
-		if (pid == 0) // Proceso hijo
-		{
-			if (i == 2)
-				dup2(infile, STDIN_FILENO); // Primer comando: lee del archivo de entrada
-			else
-				dup2(prev_fd, STDIN_FILENO); // Resto de comandos: leen del pipe anterior
-			dup2(fd[1], STDOUT_FILENO); // Redirigir salida al pipe actual
-			close(fd[0]); // Cerramos lectura del pipe actual (no se necesita en el hijo)
-			if (prev_fd != -1)
-				close(prev_fd); // Cerramos lectura anterior (ya duplicada)
-			execute_cmd(ft_split(argv[i], ' '), envp); // Ejecutamos el comando actual (dividido por espacios)
-		}
-		close(fd[1]); // Proceso padre: Cerramos escritura del pipe actual
-		if (prev_fd != -1)
-			close(prev_fd); // Cerramos lectura anterior (ya usada por el hijo anterior)
-		prev_fd = fd[0]; // Guardamos la lectura actual para el siguiente comando
-		i++; // Siguiente comando
+		prev_fd = handle_middle_cmd(argv[i], prev_fd, envp);
+		i++;
 	}
-	pid = fork(); // Último comando (el que escribe en outfile)
+	last_pid = handle_last_cmd(argv[i], prev_fd, outfile, envp);
+	close(outfile);
+	wait_all(last_pid);
+}
+
+/*Función para ejecutar los procesos hijos desde el primero hasta el penúltimo*/
+int	handle_middle_cmd(char *cmd, int input_fd, char **envp)
+{
+	int		fd[2];
+	pid_t	pid;
+	char	**cmd_args;
+
+	if (pipe(fd) == -1)
+		ft_error("pipe error", 1);
+	pid = fork();
+	if (pid == -1)
+		ft_error("fork error", 1);
+	if (pid == 0)
+	{
+		close(fd[0]);
+		dup2(input_fd, STDIN_FILENO);
+		dup2(fd[1], STDOUT_FILENO);
+		close(input_fd);
+		close(fd[1]);
+		cmd_args = ft_split(cmd, ' ');
+		if (!cmd_args)
+			ft_error("memory allocation error", 1);
+		execute_cmd(cmd_args, envp);
+		free_paths(cmd_args);
+	}
+	close(fd[1]);
+	close(input_fd);
+	return (fd[0]);
+}
+
+/*Función para ejecutar el último proceso hijo*/
+pid_t	handle_last_cmd(char *cmd, int input_fd, int outfile, char **envp)
+{
+	pid_t	pid;
+	char	**cmd_args;
+
+	pid = fork();
 	if (pid == -1)
 		ft_error("last fork error", 1);
 	if (pid == 0)
 	{
-		dup2(prev_fd, STDIN_FILENO); // Lee del último pipe anterior
-		dup2(outfile, STDOUT_FILENO); // Escribe en el archivo de salida
-		execute_cmd(ft_split(argv[i], ' '), envp); // Ejecutamos el último comando
+		dup2(input_fd, STDIN_FILENO);
+		dup2(outfile, STDOUT_FILENO);
+		close(input_fd);
+		close(outfile);
+		cmd_args = ft_split(cmd, ' ');
+		if (!cmd_args)
+			ft_error("memory allocation error", 1);
+		execute_cmd(cmd_args, envp);
+		free_paths(cmd_args);
 	}
-	close(prev_fd); // Padre: cerramos la lectura del último pipe
-	while (wait(NULL) > 0); // Esperamos a que terminen todos los hijos
+	close(input_fd);
+	return (pid);
+}
+
+/*Función para esperar a todos los procesos hijos
+y devolver el código de salida del último comando*/
+void	wait_all(pid_t last_pid)
+{
+	int		status;
+	pid_t	pid;
+
+	pid = wait(&status);
+	while (pid > 0)
+	{
+		if (pid == last_pid && WIFEXITED(status))
+			exit(WEXITSTATUS(status));
+		pid = wait(&status);
+	}
+	exit(1);
 }

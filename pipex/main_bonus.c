@@ -17,9 +17,11 @@ void	arg_error(int min_args)
 {
 	ft_putstr_fd("\033[31mError: Bad arguments\n\e[0m", 2);
 	if (min_args == 5)
-		ft_putstr_fd("Usage:\t ./pipex <file1> <cmd1> <cmd2> ... <cmdn> <file2>\n", 1);
+		ft_putstr_fd(
+			"Usage:\t ./pipex <file1> <cmd1> <cmd2> ... <cmdn> <file2>\n", 1);
 	if (min_args == 6)
-		ft_putstr_fd("Usage:\t ./pipex here_doc LIMITER <cmd1> <cmd2> <file>\n", 1);
+		ft_putstr_fd(
+			"Usage:\t ./pipex here_doc LIMITER <cmd1> <cmd2> <file>\n", 1);
 	exit(1);
 }
 
