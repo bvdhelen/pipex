@@ -24,7 +24,7 @@ void	pipex_bonus(int argc, char **argv, char **envp)
 	infile = open_file_bonus(argv[1], 0);
 	if (infile == -1)
 		ft_error("infile error", 1);
-	outfile = open_file_bonus(argv[argc - 1], 2);
+	outfile = open_file_bonus(argv[argc - 1], 1);
 	if (outfile == -1)
 		ft_error("outfile error", 1);
 	prev_fd = infile;
