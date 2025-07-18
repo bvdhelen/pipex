@@ -27,3 +27,56 @@ int	open_file_bonus(const char *file, int access_mode)
 		ft_error("invalid access mode error", 1);
 	return (fd);
 }
+
+void	pipex_heredoc(int argc, char **argv, char **envp)
+{
+	int		i;
+	int		input;
+	int		outfile;
+	int		prev_fd;
+	pid_t	last_pid;
+
+	input = heredoc(argv[2]);
+	outfile = open_file_bonus(argv[argc - 1], 2);
+	if (outfile == -1)
+		ft_error("outfile error", 1);
+	prev_fd = input;
+	i = 3;
+	while (i < argc - 2)
+	{
+		prev_fd = handle_middle_cmd(argv[i], prev_fd, envp);
+		i++;
+	}
+	last_pid = handle_last_cmd(argv[i], prev_fd, outfile, envp);
+	close(outfile);
+	wait_all(last_pid);
+}
+
+int	heredoc(char *limiter)
+{
+	int		pipe_fd[2];
+	char	*line;
+	char	*trimmed;
+
+	if (pipe(pipe_fd) == -1)
+		ft_error("pipe error", 1);
+	while (1)
+	{
+		ft_printf("heredoc> ");
+		line = get_next_line(STDIN_FILENO);
+		if (!line)
+			break ;
+		trimmed = ft_strtrim(line, "\n");
+		if (ft_strcmp(trimmed, limiter) == 0)
+		{
+			free(trimmed);
+			free(line);
+			break ;
+		}
+		free(trimmed);
+		ft_putstr_fd(line, pipe_fd[1]);
+		free(line);
+	}
+	close(pipe_fd[1]);
+	return (pipe_fd[0]);
+}

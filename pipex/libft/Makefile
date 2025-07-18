@@ -6,7 +6,7 @@
 #    By: marvin <marvin@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/08 00:48:17 by eldiaz-c          #+#    #+#              #
-#    Updated: 2025/06/26 20:12:18 by marvin           ###   ########.fr        #
+#    Updated: 2025/07/18 13:44:22 by marvin           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ SOURCES = ft_isalpha.c \
 		ft_putstr_fd.c \
 		ft_putendl_fd.c \
 		ft_putnbr_fd.c \
+		ft_strcmp_extend.c \
 
 BONUS_SOURCES = ft_lstnew_bonus.c \
 				ft_lstadd_front_bonus.c \

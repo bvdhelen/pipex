@@ -56,5 +56,7 @@ pid_t	handle_last_cmd(char *cmd, int input_fd, int outfile, char **envp);
 void	wait_all(pid_t last_pid);
 
 int		open_file_bonus(const char *file, int access_mode);
+void	pipex_heredoc(int argc, char **argv, char **envp);
+int		heredoc(char *limiter);
 
 #endif
