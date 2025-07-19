@@ -52,6 +52,19 @@ void	pipex_heredoc(int argc, char **argv, char **envp)
 	wait_all(last_pid);
 }
 
+static char	*get_trimmed_line(char *line)
+{
+	char	*trimmed;
+
+	trimmed = ft_strtrim(line, "\n");
+	if (!trimmed)
+	{
+		free(line);
+		ft_error("malloc strtrim error", 1);
+	}
+	return (trimmed);
+}
+
 int	heredoc(char *limiter)
 {
 	int		pipe_fd[2];
@@ -66,16 +79,16 @@ int	heredoc(char *limiter)
 		line = get_next_line(STDIN_FILENO);
 		if (!line)
 			break ;
-		trimmed = ft_strtrim(line, "\n");
+		trimmed = get_trimmed_line(line);
 		if (ft_strcmp(trimmed, limiter) == 0)
 		{
-			free(trimmed);
 			free(line);
+			free(trimmed);
 			break ;
 		}
-		free(trimmed);
 		ft_putstr_fd(line, pipe_fd[1]);
 		free(line);
+		free(trimmed);
 	}
 	close(pipe_fd[1]);
 	return (pipe_fd[0]);
