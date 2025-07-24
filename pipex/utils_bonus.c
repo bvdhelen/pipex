@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_bonus.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
+/*   By: eldiaz-c <eldiaz-c@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/15 12:40:13 by marvin            #+#    #+#             */
-/*   Updated: 2025/07/15 12:40:13 by marvin           ###   ########.fr       */
+/*   Created: 2025/07/24 13:07:59 by eldiaz-c          #+#    #+#             */
+/*   Updated: 2025/07/24 13:07:59 by eldiaz-c         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	open_file_bonus(const char *file, int access_mode)
 	return (fd);
 }
 
+/*Función para ejecutar varios comandos conectados por varias tuberías (pipes),
+pero en vez de infile, usas lo que mete el ususario por pantalla*/
 void	pipex_heredoc(int argc, char **argv, char **envp)
 {
 	int		i;
@@ -52,6 +54,7 @@ void	pipex_heredoc(int argc, char **argv, char **envp)
 	wait_all(last_pid);
 }
 
+/*Función para recortar la línea, quitando los \n que haya*/
 static char	*get_trimmed_line(char *line)
 {
 	char	*trimmed;
@@ -65,6 +68,7 @@ static char	*get_trimmed_line(char *line)
 	return (trimmed);
 }
 
+/*Función para leer las líneas que el usuario mete por pantalla*/
 int	heredoc(char *limiter)
 {
 	int		pipe_fd[2];
