@@ -20,9 +20,9 @@ int	open_file(const char *file, int access_mode)
 	if (access_mode == 0)
 		fd = open(file, O_RDONLY);
 	if (access_mode == 1)
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0664);
 	if (access_mode == -1)
-		ft_error("invalid access mode error", 1);
+		ft_error("pipex: invalid access mode error", 1);
 	return (fd);
 }
 
@@ -71,6 +71,6 @@ void	check_access(char *path, char **cmd)
 	{
 		free(path);
 		free_paths(cmd);
-		ft_error("permission denied error", 126);
+		ft_error("pipex: permission denied error", 126);
 	}
 }

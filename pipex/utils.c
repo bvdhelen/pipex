@@ -78,7 +78,7 @@ void	execute_cmd(char **cmd, char **envp)
 	if (!path)
 	{
 		free_paths(cmd);
-		ft_error("command not found in PATH error", 127);
+		ft_error("pipex: command not found in PATH error", 127);
 	}
 	check_access(path, cmd);
 	if (execve(path, cmd, envp) == -1)
@@ -86,8 +86,8 @@ void	execute_cmd(char **cmd, char **envp)
 		free(path);
 		free_paths(cmd);
 		if (errno == ENOENT)
-			ft_error("no such a file or directory error", 127);
+			ft_error("pipex: no such a file or directory error", 127);
 		else
-			ft_error("execve error", 1);
+			ft_error("pipex: execve error", 1);
 	}
 }

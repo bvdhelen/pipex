@@ -70,13 +70,13 @@ int	main(int argc, char **argv, char **envp)
 		if (argc < 6)
 			arg_error(6);
 		if (check_empty_cmds(argv, 3, argc - 2))
-			ft_error("empty or invalid command", 1);
+			ft_error("pipex: empty or invalid command", 1);
 		pipex_heredoc(argc, argv, envp);
 	}
 	else
 	{
 		if (check_empty_cmds(argv, 2, argc - 2))
-			ft_error("empty or invalid command", 1);
+			ft_error("pipex: empty or invalid command", 1);
 		if (argc == 5)
 			pipex(argv, envp);
 		else if (argc > 5)

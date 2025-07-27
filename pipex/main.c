@@ -23,7 +23,7 @@ void	arg_error(void)
 /*Función error principal*/
 void	ft_error(char *message, int code)
 {
-	ft_putstr_fd("\033[31mError: \n\e[0m", 2);
+	ft_putstr_fd("\033[31mError: \n\033[0m", 2);
 	perror(message);
 	exit(code);
 }
@@ -49,7 +49,7 @@ int	main(int argc, char **argv, char **envp)
 	if (argc == 5)
 	{
 		if (empty_cmd(argv[2]) || empty_cmd(argv[3]))
-			ft_error("empty or invalid command", 1);
+			ft_error("pipex: empty or invalid command", 1);
 		pipex(argv, envp);
 	}
 	else

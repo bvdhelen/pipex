@@ -19,12 +19,12 @@ int	open_file_bonus(const char *file, int access_mode)
 
 	if (access_mode == 0)
 		fd = open(file, O_RDONLY);
-	else if (access_mode == 1)
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	else if (access_mode == 2)
-		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
-	else if (access_mode == -1)
-		ft_error("invalid access mode error", 1);
+	if (access_mode == 1)
+		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (access_mode == 2)
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0664);
+	if (access_mode == -1)
+		ft_error("pipex: invalid access mode error", 1);
 	return (fd);
 }
 
@@ -41,7 +41,7 @@ void	pipex_heredoc(int argc, char **argv, char **envp)
 	input = heredoc(argv[2]);
 	outfile = open_file_bonus(argv[argc - 1], 2);
 	if (outfile == -1)
-		ft_error("outfile error", 1);
+		ft_error("pipex: outfile", 1);
 	prev_fd = input;
 	i = 3;
 	while (i < argc - 2)
@@ -63,7 +63,7 @@ static char	*get_trimmed_line(char *line)
 	if (!trimmed)
 	{
 		free(line);
-		ft_error("malloc strtrim error", 1);
+		ft_error("pipex: malloc strtrim error", 1);
 	}
 	return (trimmed);
 }
@@ -76,7 +76,7 @@ int	heredoc(char *limiter)
 	char	*trimmed;
 
 	if (pipe(pipe_fd) == -1)
-		ft_error("pipe error", 1);
+		ft_error("pipex: pipe error", 1);
 	while (1)
 	{
 		ft_printf("heredoc> ");

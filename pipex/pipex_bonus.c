@@ -23,10 +23,10 @@ void	pipex_bonus(int argc, char **argv, char **envp)
 
 	infile = open_file_bonus(argv[1], 0);
 	if (infile == -1)
-		ft_error("infile error", 1);
+		ft_error("pipex: infile", 1);
 	outfile = open_file_bonus(argv[argc - 1], 1);
 	if (outfile == -1)
-		ft_error("outfile error", 1);
+		ft_error("pipex: outfile", 1);
 	prev_fd = infile;
 	i = 2;
 	while (i < argc - 2)
@@ -47,10 +47,10 @@ int	handle_middle_cmd(char *cmd, int input_fd, char **envp)
 	char	**cmd_args;
 
 	if (pipe(fd) == -1)
-		ft_error("pipe error", 1);
+		ft_error("pipex: pipe error", 1);
 	pid = fork();
 	if (pid == -1)
-		ft_error("fork error", 1);
+		ft_error("pipex: fork error", 1);
 	if (pid == 0)
 	{
 		close(fd[0]);
@@ -60,7 +60,7 @@ int	handle_middle_cmd(char *cmd, int input_fd, char **envp)
 		close(fd[1]);
 		cmd_args = ft_split(cmd, ' ');
 		if (!cmd_args)
-			ft_error("memory allocation error", 1);
+			ft_error("pipex: memory allocation error", 1);
 		execute_cmd(cmd_args, envp);
 		free_paths(cmd_args);
 	}
@@ -77,7 +77,7 @@ pid_t	handle_last_cmd(char *cmd, int input_fd, int outfile, char **envp)
 
 	pid = fork();
 	if (pid == -1)
-		ft_error("last fork error", 1);
+		ft_error("pipex: last fork error", 1);
 	if (pid == 0)
 	{
 		dup2(input_fd, STDIN_FILENO);
@@ -86,7 +86,7 @@ pid_t	handle_last_cmd(char *cmd, int input_fd, int outfile, char **envp)
 		close(outfile);
 		cmd_args = ft_split(cmd, ' ');
 		if (!cmd_args)
-			ft_error("memory allocation error", 1);
+			ft_error("pipex: memory allocation error", 1);
 		execute_cmd(cmd_args, envp);
 		free_paths(cmd_args);
 	}
