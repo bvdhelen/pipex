@@ -21,6 +21,8 @@ int	open_file(const char *file, int access_mode)
 		fd = open(file, O_RDONLY);
 	if (access_mode == 1)
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0664);
+	if (access_mode == 2)
+		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0664);
 	if (access_mode == -1)
 		ft_error("pipex: invalid access mode error", 1);
 	return (fd);

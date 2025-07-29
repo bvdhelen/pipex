@@ -38,6 +38,8 @@ int		is_absolute_path(const char *cmd);
 char	*check_direct_path(const char *cmd);
 void	check_access(char *path, char **cmd);
 
+char	**ft_split_with_quotes(const char *s);
+
 void	pipex(char **argv, char **envp);
 void	first_child_process(char **argv, char **envp, int *fd);
 void	second_child_process(char **argv, char **envp, int *fd);

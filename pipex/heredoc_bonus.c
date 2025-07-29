@@ -12,22 +12,6 @@
 
 #include "pipex_bonus.h"
 
-/*Función para abrir archivos*/
-int	open_file_bonus(const char *file, int access_mode)
-{
-	int	fd;
-
-	if (access_mode == 0)
-		fd = open(file, O_RDONLY);
-	if (access_mode == 1)
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (access_mode == 2)
-		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0664);
-	if (access_mode == -1)
-		ft_error("pipex: invalid access mode error", 1);
-	return (fd);
-}
-
 /*Función para ejecutar varios comandos conectados por varias tuberías (pipes),
 pero en vez de infile, usas lo que mete el ususario por pantalla*/
 void	pipex_heredoc(int argc, char **argv, char **envp)
@@ -39,7 +23,7 @@ void	pipex_heredoc(int argc, char **argv, char **envp)
 	pid_t	last_pid;
 
 	input = heredoc(argv[2]);
-	outfile = open_file_bonus(argv[argc - 1], 2);
+	outfile = open_file(argv[argc - 1], 2);
 	if (outfile == -1)
 		ft_error("pipex: outfile", 1);
 	prev_fd = input;

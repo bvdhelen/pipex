@@ -21,10 +21,10 @@ void	pipex_bonus(int argc, char **argv, char **envp)
 	int		prev_fd;
 	pid_t	last_pid;
 
-	infile = open_file_bonus(argv[1], 0);
+	infile = open_file(argv[1], 0);
 	if (infile == -1)
 		ft_error("pipex: infile", 1);
-	outfile = open_file_bonus(argv[argc - 1], 1);
+	outfile = open_file(argv[argc - 1], 1);
 	if (outfile == -1)
 		ft_error("pipex: outfile", 1);
 	prev_fd = infile;

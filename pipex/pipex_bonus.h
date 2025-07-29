@@ -39,6 +39,8 @@ int		is_absolute_path(const char *cmd);
 char	*check_direct_path(const char *cmd);
 void	check_access(char *path, char **cmd);
 
+char	**ft_split_with_quotes(const char *s);
+
 void	pipex(char **argv, char **envp);
 void	first_child_process(char **argv, char **envp, int *fd);
 void	second_child_process(char **argv, char **envp, int *fd);
@@ -55,7 +57,6 @@ int		handle_middle_cmd(char *cmd, int input_fd, char **envp);
 pid_t	handle_last_cmd(char *cmd, int input_fd, int outfile, char **envp);
 void	wait_all(pid_t last_pid);
 
-int		open_file_bonus(const char *file, int access_mode);
 void	pipex_heredoc(int argc, char **argv, char **envp);
 int		heredoc(char *limiter);
 

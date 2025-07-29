@@ -56,7 +56,7 @@ void	first_child_process(char **argv, char **envp, int *fd)
 	dup2(infile, STDIN_FILENO);
 	dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
-	cmd_args = ft_split(argv[2], ' ');
+	cmd_args = ft_split_with_quotes(argv[2]);
 	if (!cmd_args)
 		ft_error("pipex: memory allocation error", 1);
 	execute_cmd(cmd_args, envp);
@@ -77,7 +77,7 @@ void	second_child_process(char **argv, char **envp, int *fd)
 	dup2(fd[0], STDIN_FILENO);
 	dup2(outfile, STDOUT_FILENO);
 	close(fd[0]);
-	cmd_args = ft_split(argv[3], ' ');
+	cmd_args = ft_split_with_quotes(argv[3]);
 	if (!cmd_args)
 		ft_error("pipex: memory allocation error", 1);
 	execute_cmd(cmd_args, envp);
