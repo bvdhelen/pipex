@@ -12,6 +12,7 @@
 
 #include "pipex.h"
 
+/*Función para liberar la memoria de un array de strings hasta el índice count*/
 static char	**free_memory(char **result, int count)
 {
 	while (count >= 0)
@@ -23,6 +24,8 @@ static char	**free_memory(char **result, int count)
 	return (NULL);
 }
 
+/*Función que cuenta cuántas palabras (tokens) hay en la cadena,
+respetando las comillas*/
 static int	count_shell_words(const char *s)
 {
 	int		i;
@@ -56,6 +59,8 @@ static int	count_shell_words(const char *s)
 	return (count);
 }
 
+/*Función que extrae una palabra (token) de la cadena,
+respetando las comillas*/
 static char	*extract_shell_word(const char *s, int start)
 {
 	int		i;
@@ -96,6 +101,7 @@ static char	*extract_shell_word(const char *s, int start)
 	return (trimmed);
 }
 
+/*Función que salta un token completo en la cadena, respetando las comillas*/
 static int	skip_word(const char *s, int i)
 {
 	char	quote;
@@ -117,6 +123,7 @@ static int	skip_word(const char *s, int i)
 	return (i);
 }
 
+/*Función que divide una cadena en tokens, respetando las comillas*/
 char	**ft_split_with_quotes(const char *s)
 {
 	char	**result;

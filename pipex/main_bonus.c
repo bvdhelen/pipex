@@ -15,7 +15,7 @@
 /*Función error de argumentos*/
 void	arg_error(int min_args)
 {
-	ft_putstr_fd("\033[31mError: Bad arguments\n\e[0m", 2);
+	ft_putstr_fd("\033[31mError: Bad arguments\n\033[0m", 2);
 	if (min_args == 5)
 		ft_putstr_fd(
 			"Usage:\t ./pipex <file1> <cmd1> <cmd2> ... <cmdn> <file2>\n", 1);
@@ -28,7 +28,7 @@ void	arg_error(int min_args)
 /*Función error principal*/
 void	ft_error(char *message, int code)
 {
-	ft_putstr_fd("\033[31mError: \n\e[0m", 2);
+	ft_putstr_fd("\033[31mError: \n\033[0m", 2);
 	perror(message);
 	exit(code);
 }

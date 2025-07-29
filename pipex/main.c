@@ -15,7 +15,7 @@
 /*Función error de argumentos*/
 void	arg_error(void)
 {
-	ft_putstr_fd("\033[31mError: Bad arguments\n\e[0m", 2);
+	ft_putstr_fd("\033[31mError: Bad arguments\n\033[0m", 2);
 	ft_putstr_fd("Usage:\t ./pipex <file1> <cmd1> <cmd2> <file2>\n", 1);
 	exit(1);
 }
