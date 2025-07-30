@@ -12,97 +12,8 @@
 
 #include "pipex.h"
 
-/*Función para liberar la memoria de un array de strings hasta el índice count*/
-static char	**free_memory(char **result, int count)
-{
-	while (count >= 0)
-	{
-		free(result[count]);
-		count--;
-	}
-	free(result);
-	return (NULL);
-}
-
-/*Función que cuenta cuántas palabras (tokens) hay en la cadena,
-respetando las comillas*/
-static int	count_shell_words(const char *s)
-{
-	int		i;
-	int		count;
-	char	quote;
-
-	i = 0;
-	count = 0;
-	while (s[i])
-	{
-		while (s[i] && ft_isspace(s[i]))
-			i++;
-		if (!s[i])
-			break ;
-		count++;
-		if (s[i] == '\'' || s[i] == '"')
-		{
-			quote = s[i];
-			i++;
-			while (s[i] && s[i] != quote)
-				i++;
-			if (s[i] == quote)
-				i++;
-		}
-		else
-		{
-			while (s[i] && !ft_isspace(s[i]))
-				i++;
-		}
-	}
-	return (count);
-}
-
-/*Función que extrae una palabra (token) de la cadena,
-respetando las comillas*/
-static char	*extract_shell_word(const char *s, int start)
-{
-	int		i;
-	int		len;
-	char	quote;
-	char	*word;
-	char	*trimmed;
-
-	i = start;
-	len = 0;
-	while (s[i] && ft_isspace(s[i]))
-		i++;
-	start = i;
-	if (s[i] == '\'' || s[i] == '"')
-	{
-		quote = s[i];
-		i++;
-		start = i;
-		while (s[i] && s[i] != quote)
-		{
-			len++;
-			i++;
-		}
-	}
-	else
-	{
-		while (s[i] && !ft_isspace(s[i]))
-		{
-			len++;
-			i++;
-		}
-	}
-	word = ft_substr(s, start, len);
-	if (!word)
-		return (NULL);
-	trimmed = ft_strtrim(word, "'\"");
-	free(word);
-	return (trimmed);
-}
-
 /*Función que salta un token completo en la cadena, respetando las comillas*/
-static int	skip_word(const char *s, int i)
+static int	skip_token(const char *s, int i)
 {
 	char	quote;
 
@@ -121,6 +32,77 @@ static int	skip_word(const char *s, int i)
 			i++;
 	}
 	return (i);
+}
+
+/*Función que cuenta cuántas palabras (tokens) hay en la cadena,
+respetando las comillas*/
+static int	count_shell_words(const char *s)
+{
+	int		i;
+	int		count;
+
+	i = 0;
+	count = 0;
+	while (s[i])
+	{
+		while (s[i] && ft_isspace(s[i]))
+			i++;
+		if (!s[i])
+			break ;
+		count++;
+		i = skip_token(s, i);
+	}
+	return (count);
+}
+
+/*Función que calcula la longitud de un token (sin espacios),
+respetando las comillas*/
+static int	get_token_len(const char *s, int i)
+{
+	int		len;
+	char	quote;
+
+	len = 0;
+	if (s[i] == '\'' || s[i] == '"')
+	{
+		quote = s[i];
+		i++;
+		while (s[i] && s[i] != quote)
+		{
+			len++;
+			i++;
+		}
+	}
+	else
+	{
+		while (s[i] && !ft_isspace(s[i]))
+		{
+			len++;
+			i++;
+		}
+	}
+	return (len);
+}
+
+/*Función que extrae una palabra (token) de la cadena,
+respetando las comillas*/
+static char	*extract_shell_word(const char *s, int i)
+{
+	int		len;
+	char	*word;
+	char	*trimmed;
+
+	while (s[i] && ft_isspace(s[i]))
+		i++;
+	len = get_token_len(s, i);
+	if (s[i] == '\'' || s[i] == '"')
+		i++;
+	word = ft_substr(s, i, len);
+	if (!word)
+		return (NULL);
+	trimmed = ft_strtrim(word, "'\"");
+	free(word);
+	return (trimmed);
 }
 
 /*Función que divide una cadena en tokens, respetando las comillas*/
@@ -147,7 +129,7 @@ char	**ft_split_with_quotes(const char *s)
 			return (free_memory(result, j - 1));
 		result[j] = word;
 		j++;
-		i = skip_word(s, i);
+		i = skip_token(s, i);
 	}
 	result[j] = NULL;
 	return (result);

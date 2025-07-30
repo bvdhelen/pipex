@@ -12,32 +12,6 @@
 
 #include "pipex_bonus.h"
 
-/*Función para ejecutar varios comandos conectados por varias tuberías (pipes),
-pero en vez de infile, usas lo que mete el ususario por pantalla*/
-void	pipex_heredoc(int argc, char **argv, char **envp)
-{
-	int		i;
-	int		input;
-	int		outfile;
-	int		prev_fd;
-	pid_t	last_pid;
-
-	input = heredoc(argv[2]);
-	outfile = open_file(argv[argc - 1], 2);
-	if (outfile == -1)
-		ft_error("pipex: outfile", 1);
-	prev_fd = input;
-	i = 3;
-	while (i < argc - 2)
-	{
-		prev_fd = handle_middle_cmd(argv[i], prev_fd, envp);
-		i++;
-	}
-	last_pid = handle_last_cmd(argv[i], prev_fd, outfile, envp);
-	close(outfile);
-	wait_all(last_pid);
-}
-
 /*Función para recortar la línea, quitando los \n que haya*/
 static char	*get_trimmed_line(char *line)
 {
@@ -80,4 +54,30 @@ int	heredoc(char *limiter)
 	}
 	close(pipe_fd[1]);
 	return (pipe_fd[0]);
+}
+
+/*Función para ejecutar varios comandos conectados por varias tuberías (pipes),
+pero en vez de infile, usas lo que mete el ususario por pantalla*/
+void	pipex_heredoc(int argc, char **argv, char **envp)
+{
+	int		i;
+	int		input;
+	int		outfile;
+	int		prev_fd;
+	pid_t	last_pid;
+
+	input = heredoc(argv[2]);
+	outfile = open_file(argv[argc - 1], 2);
+	if (outfile == -1)
+		ft_error("pipex: outfile", 1);
+	prev_fd = input;
+	i = 3;
+	while (i < argc - 2)
+	{
+		prev_fd = handle_middle_cmd(argv[i], prev_fd, envp);
+		i++;
+	}
+	last_pid = handle_last_cmd(argv[i], prev_fd, outfile, envp);
+	close(outfile);
+	wait_all(last_pid);
 }

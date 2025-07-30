@@ -12,20 +12,16 @@
 
 #include "pipex.h"
 
-/*Función para abrir archivos*/
-int	open_file(const char *file, int access_mode)
+/*Función para liberar la memoria de un array de strings hasta el índice count*/
+char	**free_memory(char **result, int count)
 {
-	int	fd;
-
-	if (access_mode == 0)
-		fd = open(file, O_RDONLY);
-	if (access_mode == 1)
-		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0664);
-	if (access_mode == 2)
-		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0664);
-	if (access_mode == -1)
-		ft_error("pipex: invalid access mode error", 1);
-	return (fd);
+	while (count >= 0)
+	{
+		free(result[count]);
+		count--;
+	}
+	free(result);
+	return (NULL);
 }
 
 /*Función para liberar memoria de las rutas*/

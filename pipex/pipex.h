@@ -27,12 +27,13 @@
 # define READ_END	0	//index pipe extremo lectura
 # define WRITE_END	1	//index pipe extremo escritura
 
+int		open_file(const char *file, int access_mode);
 char	*join_paths(const char *folder, const char *cmd);
 char	*search_in_paths(char **paths, char *cmd);
 char	*get_cmd_path(char *cmd, char **envp);
 void	execute_cmd(char **cmd, char **envp);
 
-int		open_file(const char *file, int access_mode);
+char	**free_memory(char **result, int count);
 void	free_paths(char **paths);
 int		is_absolute_path(const char *cmd);
 char	*check_direct_path(const char *cmd);

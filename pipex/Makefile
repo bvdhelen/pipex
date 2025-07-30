@@ -51,12 +51,12 @@ SRC =	main.c \
 OBJ = $(SRC:.c=.o)
 
 # Archivos fuente y archivos objeto BONUS
-SRC_BONUS =	main_bonus.c \
-			pipex_bonus.c \
-			heredoc_bonus.c \
-			pipex.c \
+SRC_BONUS =	pipex.c \
 			utils.c \
 			utils2.c \
+			main_bonus.c \
+			pipex_bonus.c \
+			heredoc_bonus.c \
 			ft_split_with_quotes.c \
 
 OBJ_BONUS = $(SRC_BONUS:.c=.o)
